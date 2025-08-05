@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Blog Post</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Create New Blog Post</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Back to Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="post-form-container">
+            <h2>Write Your New Post</h2>
+            <form id="newPostForm">
+                <label for="postTitle">Title:</label>
+                <input type="text" id="postTitle" required>
+
+                <label for="postImage">Image URL (Optional):</label>
+                <input type="text" id="postImage" placeholder="e.g., https://via.placeholder.com/600x300">
+
+                <label for="postContent">Content:</label>
+                <textarea id="postContent" rows="15" required></textarea>
+
+                <button type="submit">Submit Post</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 My Awesome Blog. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript for handling the new post submission on this specific page
+        document.getElementById('newPostForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission (page reload)
+
+            const title = document.getElementById('postTitle').value.trim();
+            const content = document.getElementById('postContent').value.trim();
+            const image = document.getElementById('postImage').value.trim();
+
+            if (!title || !content) {
+                alert('Please enter both a title and content for your post.');
+                return;
+            }
+
+            const newPost = {
+                title: title,
+                content: content,
+                image: image || 'https://via.placeholder.com/600x300?text=Default+Image', // Use default if no image URL
+                date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+            };
+
+            console.log('Attempting to submit new post:', newPost);
+
+            try {
+                // This URL must match your server.js API endpoint!
+                const response = await fetch('http://localhost:3000/api/posts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newPost),
+                });
+
+                if (response.ok) {
+                    alert('Post submitted successfully!');
+                    window.location.href = 'index.html'; // Redirect to the main blog page
+                } else {
+                    const errorData = await response.json();
+                    alert('Failed to submit post: ' + (errorData.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error submitting post:', error);
+                alert('An error occurred while submitting the post. Make sure your backend server is running.');
+            }
+        });
+    </script>
+</body>
+</html>
