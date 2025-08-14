@@ -1,100 +1,116 @@
-# 📝 My Awesome Blog
+# My Awesome Blog
 
-A simple full-stack blog web application built using **HTML**, **CSS**, **JavaScript**, and **Node.js (Express)**. This blog allows users to view posts, add new posts, and leave comments.
-
----
-
-## 🎯 Project Features
-
-### 📰 Blog Front-End
-- Displays a list of blog posts dynamically.
-- Each post includes:
-  - Title
-  - Image
-  - Date of publication
-  - Content
-  - Comments
-- Navigation bar to switch between blog list and post submission form.
-
-### ✍️ Create New Blog Post
-- `new-post.html` includes a form to add:
-  - Title
-  - Content
-  - Optional Image URL
-- Submits post data to the backend using `fetch()` and POST request.
-- Auto-redirects back to the main blog page on success.
-
-### 💬 Comment Support *(in-progress or optional)*
-- Each post includes a comments array (display logic can be added in `script.js`).
-- Structure supports future enhancements for comment submission per post.
+A simple, functional blog website built using **HTML**, **CSS**, **JavaScript** (frontend), and **Node.js with Express** (backend API).  
+This version includes fixes for creating new blog posts and ensures proper communication between frontend and backend.
 
 ---
 
-## 📁 Folder Structure
+## 📌 Features
+- View a list of blog posts (title, date, image, content)
+- Create new blog posts via `new-post.html`
+- Add comments to blog posts (stored in-memory on the backend)
+- Responsive design for mobile, tablet, and desktop
+- Backend API built with Express and CORS enabled
+- Graceful image fallback if the provided image URL is broken
 
-blog-project/
+---
+
+## 📂 Project Structure
+my-awesome-blog/
 │
-├── index.html # Home page with blog post list
-├── new-post.html # Page to create new posts
-├── styles.css # Styling for the blog
-├── script.js # Client-side JavaScript
-├── server.js # Express backend server
-└── images/ # Folder for image 
+├── index.html # Main blog listing page
+├── new-post.html # Form to add a new blog post
+├── script.js # Frontend JS for fetching & displaying posts
+├── styles.css # Styling for the entire blog
+├── server.js # Node.js Express backend server
+├── package.json # Node.js dependencies
+└── README.md # Project documentation
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Setup & Run Instructions
 
-### 1. Clone the Repository
+### 1️⃣ Install Dependencies
+Make sure you have [Node.js](https://nodejs.org/) installed.  
+Then, open your terminal in the project folder and run:
 
 ```bash
-
-cd blog-project
-
-2. Install Backend Dependencies
-Make sure Node.js is installed.
-
+npm init -y
 npm install express body-parser cors
-3. Start the Backend Server
+```
+2️⃣ Start the Backend Server
+Run the following command:
 
+``` bash
 node server.js
-This will run the server on:
-🌐 http://localhost:3000
+```
+If successful, you should see:
 
-4. Run the Frontend
-You can simply open index.html in your browser.
-To avoid CORS issues or for better development flow, use a Live Server extension in VS Code or serve it with any static server.
+Server running on http://localhost:3000
+Keep this terminal open and running while you work on the frontend.
 
-📡 API Endpoints
+3️⃣ Serve the Frontend
+Do NOT open index.html or new-post.html by double-clicking (this will cause file:// CORS errors).
+
+Instead, run a simple dev server in another terminal:
+
+Option 1 – Using Live Server (VS Code Extension)
+Install the Live Server extension in VS Code
+
+Right-click index.html → Open with Live Server
+
+Option 2 – Using npm
+
+npm install -g live-server
+live-server
+or:
+
+npx http-server .
+4️⃣ Create a New Post
+Visit your blog in the browser (e.g., http://127.0.0.1:8080).
+
+Click "Add New Post" in the navigation menu.
+
+Fill in the form and click Submit Post.
+
+Your new post should appear on the home page.
+
+⚙️ API Endpoints
 GET /api/posts
-Fetches all blog posts.
+Returns a list of all blog posts.
 
-POST /api/posts
-Accepts a JSON body with:
+Example:
 
 json
+[
+  {
+    "id": 1,
+    "title": "The Joys of Web Development",
+    "date": "July 19, 2025",
+    "image": "https://via.placeholder.com/600x300?text=Web+Dev+Fun",
+    "content": "Learning web development has been an incredibly rewarding journey...",
+    "comments": []
+  }
+]
+POST /api/posts
+Creates a new blog post.
 
+Example Request:
+
+json
 {
-  "title": "Post Title",
-  "content": "Post content",
-  "image": "Optional image URL",
-  "date": "Optional date string"
+  "title": "My First Blog Post",
+  "content": "This is my first blog post content.",
+  "image": "https://via.placeholder.com/600x300",
+  "date": "August 14, 2025"
 }
-Adds the post to the in-memory database.
+🔹 Notes
+Posts and comments are stored in-memory on the backend. They will reset when the server restarts.
 
-⚙️ Tech Stack
-Frontend: HTML5, CSS3, JavaScript 
+CORS is enabled to allow frontend to connect to the backend.
 
-Backend: Node.js, Express.js
-
-API: RESTful endpoints
-
-Database: In-memory (array-based)
-
-🔒 Note: Posts are not saved permanently. Restarting the server will reset all data.
-
-📱 Responsiveness
-The website layout is designed to be responsive and adjusts across different screen sizes using CSS media queries.
+The API URL in script.js and new-post.html is currently set to http://localhost:3000/api/posts.
+If you deploy, update this URL accordingly.
 
 🛠️ Future Improvements
 Add persistent database support (e.g., MongoDB or SQLite)
@@ -111,4 +127,5 @@ Kritika Prajapati
 
 📄 License
 This project is open-source and free to use for educational purposes.
+
 
